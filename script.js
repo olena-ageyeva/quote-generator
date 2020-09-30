@@ -5,23 +5,19 @@ const twitterBtn = document.getElementById("twitter");
 const newQuoteBtn = document.getElementById("new-quote");
 const loader = document.getElementById("loader");
 
-//Show Loading
-function loading() {
+function showLoadingSpinner() {
   loader.hidden = false;
   quoteContainer.hidden = true;
 }
 
-//Hide Loading
-function complete() {
+function removerLoadingSpinner() {
   if (!loader.hidden) {
     quoteContainer.hidden = false;
     loader.hidden = true;
   }
 }
 
-//Show New Quote
 function newQuote(apiQuotes) {
-  //Pick a random quote from array
   const quote = apiQuotes[Math.floor(Math.random() * apiQuotes.length)];
   const { author, text } = quote;
 
@@ -36,17 +32,13 @@ function newQuote(apiQuotes) {
     quoteText.classList.remove("long-quote");
   }
   quoteText.innerText = text;
-
-  console.log(quote);
 }
 
 //Get Quote From API
 async function getQuote() {
-  loading();
-  //const proxyUrl = "https://cors-anywhere.herokuapp.com/";
+  showLoadingSpinner();
   const proxyUrl = "https://sheltered-badlands-52292.herokuapp.com/";
-  // const apiUrl =
-  //   "https://api.forismatic.com/api/1.0/?method=getQuote&lang=en&format=json";
+  //"https://api.forismatic.com/api/1.0/?method=getQuote&lang=en&format=json";
   const apiUrl = "https://type.fit/api/quotes";
 
   try {
@@ -56,10 +48,8 @@ async function getQuote() {
 
     newQuote(apiQuotes);
 
-    complete();
-  } catch (error) {
-    //getQuote();
-  }
+    removerLoadingSpinner();
+  } catch (error) {}
 }
 
 function tweetQuote() {
